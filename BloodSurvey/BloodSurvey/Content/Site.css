@@ -1,0 +1,44 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-color:aliceblue;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+#div-blood{
+    background-color:rgba(0, 0, 0, 0.79);
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    display:none;
+}
+
+#div-blood-inner{
+    position:absolute;
+    top:100px;
+    left:0;
+    right:0;
+    background-color:white;
+    margin:auto;
+    width:60%;
+    height:40%;
+}
+
+#img-loading{
+    display:none;
+}
