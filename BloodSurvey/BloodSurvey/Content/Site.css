@@ -1,7 +1,6 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-color:aliceblue;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -17,6 +16,9 @@ textarea {
     max-width: 280px;
 }
 
+#div-survey{
+    margin:auto;
+}
 
 #div-blood{
     background-color:rgba(0, 0, 0, 0.79);
@@ -28,6 +30,11 @@ textarea {
     display:none;
 }
 
+.title{
+    margin:auto;
+    text-align:center;
+}
+
 #div-blood-inner{
     position:absolute;
     top:100px;
@@ -36,9 +43,69 @@ textarea {
     background-color:white;
     margin:auto;
     width:60%;
-    height:40%;
+    height:50%;
+    text-align:center;
 }
 
 #img-loading{
     display:none;
+}
+
+#div-questions{
+    max-width:500px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.question-title{
+    margin:20px;
+    font-size:20px;
+}
+
+.select-question{
+    margin:auto;
+    font-size:20px;
+}
+
+#button-ok{
+    margin-top:120px;
+    margin-bottom:120px;
+    margin-left:auto;
+    margin-right:auto;
+    width:250px;
+    height:60px;
+    font-size:20px;
+}
+#button-send{
+    margin-top:60px;
+    margin-left:auto;
+    margin-right:auto;
+    width:250px;
+    height:60px;
+    font-size:20px;
+}
+
+#button-evaluate{
+    margin-top:60px;
+    margin-left:auto;
+    margin-right:auto;
+    width:250px;
+    height:60px;
+    font-size:20px;
+}
+
+#button-closedialog{
+    margin-left:auto;
+    width:100px;
+}
+
+.button-action{
+    background-color:#00a0de;
+    color:white;
+}
+
+#img-loading{
+    margin:auto;
+    width:100px;
+    height:100px;
 }

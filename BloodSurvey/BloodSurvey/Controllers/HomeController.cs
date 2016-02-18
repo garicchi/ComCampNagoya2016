@@ -15,6 +15,14 @@ namespace BloodSurvey.Controllers
             return View();
         }
 
+        public ActionResult Apologize()
+        {
+            return View();
+        }
         
+        public ActionResult Evaluate()
+        {
+            return View();
+        }
     }
 }

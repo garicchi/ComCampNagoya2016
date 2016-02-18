@@ -1,34 +1,37 @@
 ﻿@using BloodSurvey.Models
 <div class="row">
-    <div class="col-md-4">
+    <div id="div-survey">
+        <h2 class="title">名古屋Comcamp AzureML学習用アンケート</h2>
         <div id="div-questions">
             @{
                 foreach (var i in BloodFactory.GetQuestions())
                 {
-                    <p>Q.@(i.Id) @i.Question</p>
+                    <p class="question-title">Q.@(i.Id) @i.Question</p>
 
-                    <select id="question@(i.Id)" size="1" class="form-control">
+                    <select id="question@(i.Id)" size="1" class="form-control select-question">
                         <option value="0">No</option>
                         <option value="1">Yes</option>
                     </select>
                 }
             }
+            <button id="button-ok" class="form-control button-action" onclick="openBlood()">OK</button>
         </div>
+        
         <div id="div-blood">
             <div id="div-blood-inner">
-                <button class="form-control" onclick="closeBlood()">閉じる</button>
-                <p>あなたの血液型を教えて下さい</p>
-                <select id="select-blood" size="1" class="form-control">
+                <button id="button-closedialog" class="form-control" onclick="closeBlood()">閉じる</button>
+                <p class="question-title">あなたの血液型を教えて下さい</p>
+                <select id="select-blood" size="1" class="form-control select-question">
                     <option value="A">A</option>
                     <option value="B">B</option>
                     <option value="AB">AB</option>
                     <option value="O">O</option>
                 </select>
                 <img id="img-loading" src="~/Image/loading.gif" />
-                <button class="form-control" onclick="insertSurvey()">送信</button>
+                <button id="button-send" class="form-control button-action" onclick="insertSurvey()">送信</button>
             </div>
         </div>
-        <button class="form-control" onclick="openBlood()">Send</button>
+        
     </div>
 </div>
 <script type="text/javascript">
@@ -73,6 +76,10 @@
             success: function (data) {
                 $("#img-loading").hide();
                 closeBlood();
+                location.href = "/Home/Apologize";
+            },
+            error: function(data){
+                alert("何かしらのエラーがおきました");
             }
         });
         

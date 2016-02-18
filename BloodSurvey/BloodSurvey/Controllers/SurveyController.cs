@@ -15,7 +15,7 @@ namespace BloodSurvey.Controllers
     
     public class SurveyController : ApiController
     {
-        public MobileServiceClient client = new MobileServiceClient("http://bloodsurvey.azurewebsites.net");
+        public MobileServiceClient client = new MobileServiceClient("http://bloodsurveydata.azurewebsites.net");
         public string Get()
         {
             return "moge";

@@ -1,0 +1,121 @@
+﻿@using BloodSurvey.Models
+<div class="row">
+    <div id="div-survey">
+        <h2 class="title">名古屋Comcamp AzureML評価用アンケート</h2>
+        <div id="div-questions">
+            @{
+                foreach (var i in BloodFactory.GetQuestions())
+                {
+                    <p class="question-title">Q.@(i.Id) @i.Question</p>
+
+                    <select id="question@(i.Id)" size="1" class="form-control select-question">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                }
+            }
+            <button id="button-ok" class="form-control button-action" onclick="openBlood()">OK</button>
+        </div>
+
+        <div id="div-blood">
+            <div id="div-blood-inner">
+                <button id="button-closedialog" class="form-control" onclick="closeBlood()">閉じる</button>
+                <div id="div-result" style="display:none;">
+                    <p id="p-result"></p>
+                    <select id="select-evaluate" size="1" class="form-control select-question">
+                        <option value="0">あってない</option>
+                        <option value="1">あってる</option>
+                    </select>
+                    <button id="button-evaluate" class="form-control button-action" onclick="sendResult()">結果を送信する</button>
+                </div>
+                <img id="img-loading" src="~/Image/loading.gif" />
+                <button id="button-send" class="form-control button-action" onclick="insertSurvey()">結果を見る</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    function closeBlood() {
+        $("#div-blood").fadeOut(200);
+    }
+    function openBlood() {
+        $("#div-blood").fadeIn(200);
+    }
+    function insertSurvey() {
+        $("#img-loading").show();
+        var blood = "A";
+        var selects = $("#div-questions").children("select");
+        var array = Array();
+        for (var i = 0; i < selects.length; i++) {
+            var select = selects[i];
+            var index = select.selectedIndex;
+            var item = index;
+            array.push(item);
+        }
+        var data = {
+            q1: array[0],
+            q2: array[1],
+            q3: array[2],
+            q4: array[3],
+            q5: array[4],
+            q6: array[5],
+            q7: array[6],
+            q8: array[7],
+            q9: array[8],
+            q10: array[9],
+            q11: array[10],
+            q12: array[11],
+            blood:blood
+        };
+        
+        $.ajax({
+            type: "POST",
+            url: "/api/eval",
+            contentType: "application/json",
+            data: "'"+JSON.stringify(data)+"'",
+            success: function (data) {
+                var json = JSON.parse(data);
+                var result = json.Results.output1.value.Values[0];
+                var scoreA = result[13];
+                var scoreAB = result[14];
+                var scoreB = result[15];
+                var scoreO = result[16];
+                var scoreLabel = result[17];
+
+                var message = "あなたの血液型は機械学習によって<strong style='font-size:24px;'>" + scoreLabel + "型</strong>に分類されました<br />"
+                + "A型 " + Math.floor(scoreA*1000)/10 + "%<br />"
+                + "AB型 " + Math.floor(scoreAB*1000)/10 + "%<br />"
+                + "B型 " + Math.floor(scoreB*1000)/10 + "%<br />"
+                + "O型 " + Math.floor(scoreO * 1000) / 10 + "%<br />"
+                $("#p-result").html(message);
+                $("#button-send").fadeOut(200);
+                $("#div-result").fadeIn(200);
+                $("#img-loading").hide();
+            },
+            error: function(data){
+                alert("何かしらのエラーがおきました");
+            }
+        });
+
+    }
+    function sendResult() {
+        $("#img-loading").show();
+        var selected = $("#select-evaluate").val();
+        var message = "識別失敗";
+        var icon = ":no_good:";
+        if (selected == "1") {
+            message = "識別成功";
+            icon = ":ok_woman:";
+        }
+        var playload = { "channel": "#blood", "username": "bloof-bot", "text": message, "icon_emoji": icon }
+        $.ajax({
+            type: "POST",
+            url: "https://hooks.slack.com/services/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",
+            data: JSON.stringify(playload),
+            success: function (data) {
+                location.href = "/Home/Apologize";
+            }
+        });
+    }
+</script>
